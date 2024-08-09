@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixed Deposit Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h1>Fixed Deposit Dashboard</h1>
+    </div>
+    <div class="container">
+        <div class="summary">
+            <div class="summary-card">
+                <h3>Total Deposits</h3>
+                <p id="totalDeposits">Loading...</p>
+            </div>
+            <div class="summary-card">
+                <h3>Total Invested</h3>
+                <p id="totalInvested">Loading...</p>
+            </div>
+            <div class="summary-card">
+                <h3>Avg Interest Rate</h3>
+                <p id="avgInterestRate">Loading...</p>
+            </div>
+            <div class="summary-card">
+                <h3>Expected Returns</h3>
+                <p id="expectedReturns">Loading...</p>
+            </div>
+        </div>
+        <div class="chart-container">
+            <canvas id="bankDistribution"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="maturityTimeline"></canvas>
+        </div>
+        <div class="table-container">
+            <h2>Upcoming Maturities</h2>
+            <table id="maturitiesTable">
+                <tr>
+                    <th>Account Number</th>
+                    <th>Bank Name</th>
+                    <th>Principal Amount</th>
+                    <th>Maturity Date</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
