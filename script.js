@@ -1,6 +1,25 @@
 // Google Sheets API key and spreadsheet ID
-const API_KEY = 'YOUR_API_KEY';
+const API_KEY = 'YOUR_GOOGLE_SHEETS_API_KEY';
 const SPREADSHEET_ID = '1VlNJVG9gyH5QsbBeqU7QT1_6b18jfvEznrX-Sod0gPU';
+
+// Allowed email addresses
+const ALLOWED_EMAILS = ['kmungoda@gmail.com', 'jananiweerasinghe@gmail.com'];
+
+let isAuthenticated = false;
+
+function handleCredentialResponse(response) {
+    const responsePayload = jwt_decode(response.credential);
+    const email = responsePayload.email;
+
+    if (ALLOWED_EMAILS.includes(email)) {
+        isAuthenticated = true;
+        document.getElementById('loginContainer').style.display = 'none';
+        document.getElementById('dashboardContainer').style.display = 'block';
+        updateDashboard();
+    } else {
+        alert('You are not authorized to view this dashboard.');
+    }
+}
 
 // Function to fetch data from Google Sheets
 async function fetchSheetData() {
@@ -11,6 +30,10 @@ async function fetchSheetData() {
 
 // Function to process the data and update the dashboard
 async function updateDashboard() {
+    if (!isAuthenticated) {
+        return;
+    }
+
     const sheetData = await fetchSheetData();
     const headers = sheetData[0];
     const values = sheetData.slice(1);
@@ -102,5 +125,13 @@ async function updateDashboard() {
           });
 }
 
-// Call the updateDashboard function when the page loads
-window.onload = updateDashboard;
+// Add JWT decode function
+function jwt_decode(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
